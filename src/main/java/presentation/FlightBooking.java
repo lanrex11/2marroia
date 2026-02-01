@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -44,8 +45,12 @@ public class FlightBooking extends JFrame {
 	private JLabel jLabelResult = new JLabel();
 	private JLabel searchResult =   new JLabel();
 	
-	private JTextField arrivalCity;
-	private JTextField departCity;
+	private JComboBox<String> departCity;
+	private JComboBox<String> arrivalCity;
+	private DefaultComboBoxModel<String> departures = new DefaultComboBoxModel<String>();
+	private DefaultComboBoxModel<String> arrivals = new DefaultComboBoxModel<String>();
+
+	
 	private JTextField day = null;
 	private JComboBox<String> months = null;
 	private DefaultComboBoxModel<String> monthNames = new DefaultComboBoxModel<String>();
@@ -86,8 +91,7 @@ public class FlightBooking extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FlightBooking frame = new FlightBooking();
-					frame.setBusinessLogic(new FlightManager());
+					FlightBooking frame = new FlightBooking(new FlightManager());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -97,7 +101,9 @@ public class FlightBooking extends JFrame {
 	}
 	
 	//Custom operations
-	public void setBusinessLogic(FlightManager g) {businessLogic = g;}
+	public void setBusinessLogic(FlightManager g) {
+		businessLogic = g;
+	}
 	
 	private Date newDate(int year,int month,int day) {
 
@@ -112,8 +118,9 @@ public class FlightBooking extends JFrame {
 	 * 
 	 * @return void
 	 */
-	private  FlightBooking() {
+	private  FlightBooking(FlightManager logic) {
 		
+	    this.businessLogic = logic;
 		setTitle("Book Flight");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 353);
@@ -126,17 +133,34 @@ public class FlightBooking extends JFrame {
 		lblDepartCity.setBounds(21, 11, 103, 16);
 		contentPane.add(lblDepartCity);
 		
-		arrivalCity = new JTextField();
-		arrivalCity.setText("Bilbo");
-		arrivalCity.setBounds(99, 34, 243, 26);
-		contentPane.add(arrivalCity);
-		arrivalCity.setColumns(10);
 		
-		departCity = new JTextField();
-		departCity.setText("Donostia");
-		departCity.setBounds(99, 6, 243, 26);
+		//1 Aldaketa
+		departCity = new JComboBox<String>();
+		departCity.setBounds(99, 9, 204, 20);
 		contentPane.add(departCity);
-		departCity.setColumns(10);
+		departCity.setModel(departures);
+
+		List<String > cities = businessLogic.getAllDepartingCities();
+		departures.addAll(cities);
+
+		//2 Aldaketa
+		arrivalCity = new JComboBox<String>();
+		arrivalCity.setBounds(99, 37, 204, 20);
+		contentPane.add(arrivalCity);
+		arrivalCity.setModel(arrivals);
+		
+		departCity.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				arrivals.removeAllElements();
+
+				String selectedDepartCity = (String) departCity.getSelectedItem();
+				if (selectedDepartCity != null) {
+					List<String> arrivalCities = businessLogic.getArrivalCitiesFrom(selectedDepartCity);
+					arrivals.addAll(arrivalCities);
+				}
+			}
+		});
+	
 		
 		
 		lblYear = new JLabel("Year:");
@@ -188,6 +212,8 @@ public class FlightBooking extends JFrame {
 		bussinesTicket.setBounds(99, 238, 101, 23);
 		contentPane.add(bussinesTicket);
 		
+		
+		
 		firstTicket = new JRadioButton("First");
 		fareButtonGroup.add(firstTicket);
 		firstTicket.setBounds(202, 238, 77, 23);
@@ -207,7 +233,7 @@ public class FlightBooking extends JFrame {
 				
 				java.util.Date date =newDate(Integer.parseInt(year.getText()),months.getSelectedIndex(),Integer.parseInt(day.getText()));
 				 
-				concreteFlightCollection=businessLogic.getConcreteFlights(departCity.getText(),arrivalCity.getText(),date);
+				concreteFlightCollection=businessLogic.getConcreteFlights(departCity.getSelectedItem().toString(),arrivalCity.getSelectedItem().toString(),date);
 				Iterator<ConcreteFlight> flights=concreteFlightCollection.iterator();
 				while (flights.hasNext()) 
 					flightInfo.addElement(flights.next()); 
@@ -278,5 +304,7 @@ public class FlightBooking extends JFrame {
 		
 		searchResult.setBounds(57, 130, 314, 16);
 		contentPane.add(searchResult);
+		
+		
 	}
 }  //  @jve:decl-index=0:visual-constraint="18,9"
