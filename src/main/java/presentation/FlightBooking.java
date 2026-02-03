@@ -12,8 +12,10 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -243,20 +245,58 @@ public class FlightBooking extends JFrame {
 				bookFlight.setEnabled(true);
 				flightInfo.removeAllElements();
 				
-				java.util.Date date =newDate(Integer.parseInt(year.getText()),months.getSelectedIndex(),Integer.parseInt(day.getText()));
-				 
-				concreteFlightCollection=businessLogic.getConcreteFlights(departCity.getSelectedItem().toString(),arrivalCity.getSelectedItem().toString(),date);
-				Iterator<ConcreteFlight> flights=concreteFlightCollection.iterator();
-				while (flights.hasNext()) 
-					flightInfo.addElement(flights.next()); 
-				if (concreteFlightCollection.isEmpty()) searchResult.setText("No flights in that city in that date");
-				else searchResult.setText("Choose an available flight in this list:");
+				
+	
+				try { 
+					//Hasieran sabuespenak altxa dezaketen aldagaiak erazagutu
+					int urtea = -1, hila = -1, eguna = -1;
+					String departure = departCity.getSelectedItem().toString() , arrival = arrivalCity.getSelectedItem().toString();
+					urtea = Integer.parseInt(year.getText());
+					hila = months.getSelectedIndex();
+					eguna = Integer.parseInt(day.getText());
+					
+					java.util.Date date = newDate(urtea, hila, eguna);
+					
+					Set egun31 = new HashSet<Integer>(Set.of(0,2,4,6,7,9,11));
+					
 
-				bookFlight.setText("Book: " + (String)flightList.getSelectedItem().toString());
+					
+					if (urtea < 2026 || 
+							(eguna > 29 && hila == 1) || 
+							(eguna > 30 && !egun31.contains(hila)) || 
+							(eguna > 31 && egun31.contains(hila)))
+						throw new IllegalArgumentException("Select a valid date");
+					
+					concreteFlightCollection=businessLogic.getConcreteFlights(departure,arrival,date);
+					
+					Iterator<ConcreteFlight> flights=concreteFlightCollection.iterator();
+					while (flights.hasNext()) 
+						flightInfo.addElement(flights.next()); 
+					
+					if (concreteFlightCollection.isEmpty()) 
+						searchResult.setText("No flights in that city in that date");
+					else 
+						searchResult.setText("Choose an available flight in this list:");
 
-			}
+					if(flightList.getSelectedItem() != null)
+						bookFlight.setText("Book: " + (String)flightList.getSelectedItem().toString());
+					
+				}
+				catch(NullPointerException nul) {
+					searchResult.setText("Select both arrival and destination");
+				}
+				
+				catch(NumberFormatException nu){
+					if(year.getText().equals("")||day.getText().equals("")) 	searchResult.setText("Fill all the date-gaps");
+					else														searchResult.setText("Do no write characters for the date");	
+				}
+				catch(IllegalArgumentException ar) {
+					searchResult.setText(ar.getMessage());
+					
+				}
+			}			
 		});
-		lookforFlights.setBounds(81, 90, 261, 40);
+		lookforFlights.setBounds(88, 95, 261, 34);
 		contentPane.add(lookforFlights);	
 		
 		jLabelResult = new JLabel("");
