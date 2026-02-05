@@ -33,4 +33,7 @@ batazbestekoa)?
 4 ordu.
 
 - Gehienez 5'ko bideo baten esteka marroiaren konponketa aurkezten duena. 
-//Link
+[Bideoa](https://youtu.be/pn0HhGhN8Cs)
+
+- GitHub-eko errepositorioa
+[1marroia25](https://github.com/aimar-telle/1marroia)
