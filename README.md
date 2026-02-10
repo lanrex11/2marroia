@@ -4,36 +4,14 @@
 	Alain del Ser
 	Sohaib Sebban
 
-- Lortu duzue lehen arazoa konpontzea (BAI/EZ/PARTZIALKI)?. PARTZIALKI
-bada komentatu izan duzun arazoa.
-BAI
+- Lortu duzu arazoa konpontzea (BAI/EZ/PARTZIALKI)?. PARTZIALKI/EZ bada komentatu izan duzun arazoa.
 
-- Lortu duzue bigarren arazoa konpontzea (BAI/EZ/PARTZIALKI)?.
-PARTZIALKI bada komentatu izan duzun arazoa.
-BAI
+- Zenbat ordu behar izan dituzue talde osoa marroia konpontzeko?
+  
+- Gehienez 3'ko bideo baten esteka kodean egin dituzun aldaketak
+azalduz, eta aplikazioren demo batekin.
 
-- Lortu duzue hirugarren arazoa konpontzea (BAI/EZ/PARTZIALKI)?.
-PARTZIALKI bada komentatu izan duzun arazoa.
-BAI
-
-- Lortu duzue laugarren arazoa konpontzea (BAI/EZ/PARTZIALKI)?.
-PARTZIALKI bada komentatu izan duzun arazoa.
-BAI
-
-- Lortu duzue bosgarren arazoa konpontzea (BAI/EZ/PARTZIALKI)?.
-PARTZIALKI bada komentatu izan duzun arazoa.
-BAI
-
-- Lortu duzue seigarren arazoa konpontzea (BAI/EZ/PARTZIALKI)?.
-PARTZIALKI bada komentatu izan duzun arazoa.
-BAI
-
-- Zenbat ordu behar izan dituzue marroia konpontzeko (kide guztien
-batazbestekoa)?
-4 ordu.
-
-- Gehienez 5'ko bideo baten esteka marroiaren konponketa aurkezten duena. 
-[Bideoa](https://youtu.be/pn0HhGhN8Cs)
+[Bideoa]
 
 - GitHub-eko errepositorioa
-[1marroia25](https://github.com/aimar-telle/1marroia)
+[2marroia25]https://github.com/lanrex11/2marroia
