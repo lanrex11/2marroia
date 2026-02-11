@@ -4,18 +4,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class Flight {
-	
+
+@Id	
 String flightCode;
 String departingCity;
 String arrivingCity;
 Collection<ConcreteFlight> concreteFlights;
 
+
 public Flight(String flightCode, String departingCity, String arrivingCity) {
 	super();
-	
 	this.flightCode = flightCode;
+	
 	this.departingCity = departingCity;
 	this.arrivingCity = arrivingCity;
 	concreteFlights = new ArrayList<ConcreteFlight>();
