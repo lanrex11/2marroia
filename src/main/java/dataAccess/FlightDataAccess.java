@@ -22,25 +22,26 @@ public class FlightDataAccess {
     	new FlightDataAccess();
     }
 	
-	public FlightDataAccess() {
-
+    public FlightDataAccess()  {
 		if (initialize) {
+			
 
+			File fileToDelete= new File(fileName);
+			if(fileToDelete.delete()){
+				File fileToDeleteTemp= new File(fileName+"$");
+				fileToDeleteTemp.delete();
 
-			File fileToDelete = new File(fileName);
-		    if (fileToDelete.exists()) {
-		        fileToDelete.delete();
-		        new File(fileName + "$").delete();
-		        System.out.println("File deleted");
-		    }
+				  System.out.println("File deleted");
+				} else {
+				  System.out.println("Operation failed");
+				}
 		}
 		open();
 		if  (initialize)initializeDB();
-
+		
 		System.out.println("DataAccess created => isDatabaseLocal: ");
 
 		close();
-
 
 	}
 
