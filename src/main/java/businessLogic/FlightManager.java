@@ -41,5 +41,9 @@ public class FlightManager implements FlightManagerInterface{
 	public Collection<ConcreteFlight> getConcreteFlights(String departingCity, String arrivingCity, Date date) {
 		return db.getConcreteFlights(departingCity, arrivingCity, date);
 	}
+	public void updateSeats(String type, ConcreteFlight flight) {
+		db.updateSeats(flight, type);
+	}
+	
 
 }

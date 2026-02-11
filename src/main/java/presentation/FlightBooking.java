@@ -316,15 +316,15 @@ public class FlightBooking extends JFrame {
 				boolean error=false;
 				if (bussinesTicket.isSelected()) { 
 				    num=selectedConcreteFlight.getBussinesNumber();
-					if (num>0) selectedConcreteFlight.setBusinessNumber(num-1); else error=true; 
+					if (num>0) businessLogic.updateSeats("bussiness", selectedConcreteFlight); else error=true; 
 				}
 				if (firstTicket.isSelected()) {
 					num=selectedConcreteFlight.getFirstNumber();
-					if (num>0) selectedConcreteFlight.setFirstNumber(num-1); else error=true;
+					if (num>0) businessLogic.updateSeats("first", selectedConcreteFlight); else error=true;
 				}
 				if (touristTicket.isSelected()) {
 					num=selectedConcreteFlight.getTouristNumber();
-					if (num>0) selectedConcreteFlight.setTouristNumber(num-1); else error=true;
+					if (num>0) businessLogic.updateSeats("tourist", selectedConcreteFlight); else error=true;
 				}
 				if (error) bookFlight.setText("Error: There were no seats available!");
 				else bookFlight.setText("Booked. #seat left: "+(num-1));

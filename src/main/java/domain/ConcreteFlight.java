@@ -81,4 +81,26 @@ public class ConcreteFlight {
 	public void setFlight(Flight flight) {
 		this.flight = flight;
 	}
+	public void bookSeat(String type) {
+		switch (type) {
+		case "bussiness":
+			bussinesNumber--;
+			
+			break;
+		case "tourist":
+			touristNumber--;
+			
+			
+			break;
+		case "first":
+			firstNumber--;
+			
+			
+			break;
+
+		default:
+			break;
+		}
+		
+	}
 }

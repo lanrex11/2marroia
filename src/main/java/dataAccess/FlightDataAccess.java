@@ -17,6 +17,7 @@ import domain.Flight;
 
 
 
+
 public class FlightDataAccess {
 	private EntityManager db;
 	private EntityManagerFactory emf;
@@ -193,6 +194,16 @@ public class FlightDataAccess {
 		}
 		return concreteFlights;
 	}
+	
+	
+	
+	public void updateSeats(ConcreteFlight flight, String type) {
+			db.getTransaction().begin();
+			flight.bookSeat(type);
+			db.getTransaction().commit();
+		}
+	
+	
 
 
 }
