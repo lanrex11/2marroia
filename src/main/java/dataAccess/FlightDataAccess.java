@@ -2,11 +2,17 @@ package dataAccess;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+
+import domain.ConcreteFlight;
 import domain.Flight;
 
 
@@ -14,31 +20,30 @@ import domain.Flight;
 public class FlightDataAccess {
 	private EntityManager db;
 	private EntityManagerFactory emf;
-	private boolean initialize=true;
+	private boolean initialize=false;
 	String fileName = "Flights.odb";
-	
-	
+
+
 	public static void main(String args[]) {
-    	new FlightDataAccess();
-    }
-	
-    public FlightDataAccess()  {
+		new FlightDataAccess();
+	}
+
+	public FlightDataAccess()  {
 		if (initialize) {
-			
 
 			File fileToDelete= new File(fileName);
 			if(fileToDelete.delete()){
 				File fileToDeleteTemp= new File(fileName+"$");
 				fileToDeleteTemp.delete();
 
-				  System.out.println("File deleted");
-				} else {
-				  System.out.println("Operation failed");
-				}
+				System.out.println("File deleted");
+			} else {
+				System.out.println("Operation failed");
+			}
 		}
 		open();
 		if  (initialize)initializeDB();
-		
+
 		System.out.println("DataAccess created => isDatabaseLocal: ");
 
 		close();
@@ -147,5 +152,47 @@ public class FlightDataAccess {
 
 		return calendar.getTime();
 	}
+
+	public List<String> getAllDepartingCities() {
+		TypedQuery<Flight> query = db.createQuery("SELECT f FROM Flight f",Flight.class);
+		List<Flight> flights = query.getResultList();
+		List<String> departingCities = new LinkedList<String>();
+		for(Flight f:flights) {
+			if(!departingCities.contains(f.getDepartingCity())) departingCities.add(f.getDepartingCity());
+		}
+		return departingCities;
+
+	}
+	
+	public List<String> getArrivalCitiesFrom(String departingCity){
+		TypedQuery<Flight> query = db.createQuery("SELECT f FROM Flight f",Flight.class);
+		List<Flight> flights = query.getResultList();
+		List<String> arrivalCities = new LinkedList<String>();
+		for(Flight f:flights) {
+			if(f.getDepartingCity().equals(departingCity)) {
+				arrivalCities.add(f.getArrivingCity());
+			}
+		}
+		return arrivalCities;
+
+	}
+	
+	public Collection<ConcreteFlight> getConcreteFlights(String departingCity, String arrivingCity, Date date) {
+		TypedQuery<Flight> query = db.createQuery("SELECT f FROM Flight f",Flight.class);
+		List<Flight> flights = query.getResultList();
+		Collection<ConcreteFlight> concreteFlights = new LinkedList<ConcreteFlight>();
+		for(Flight f:flights) {
+			if( f.getDepartingCity().equals(departingCity) & f.getArrivingCity().equals(arrivingCity)) {
+				for(ConcreteFlight cf:f.getConcreteFlights()) {
+					if(cf.getDate().equals(date)) {
+						concreteFlights.add(cf);
+					}
+				}
+			}
+
+		}
+		return concreteFlights;
+	}
+
 
 }

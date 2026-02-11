@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Flight {
@@ -14,6 +16,7 @@ public class Flight {
 String flightCode;
 String departingCity;
 String arrivingCity;
+@OneToMany(cascade = CascadeType.ALL)
 Collection<ConcreteFlight> concreteFlights;
 
 
