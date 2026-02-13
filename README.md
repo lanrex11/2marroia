@@ -11,9 +11,7 @@ BAI
 2-3h
   
 - Gehienez 3'ko bideo baten esteka kodean egin dituzun aldaketak
-azalduz, eta aplikazioren demo batekin.
-
-[Bideoa]
+azalduz, eta aplikazioren demo batekin. https://youtu.be/QlyyU2mZNVE
 
 - GitHub-eko errepositorioa
 [2marroia25] https://github.com/lanrex11/2marroia
